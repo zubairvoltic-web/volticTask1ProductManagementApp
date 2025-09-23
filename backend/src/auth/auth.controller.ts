@@ -23,13 +23,17 @@ export class AuthController {
   @Post('register')
   async register(@Body() dto: CreateAdminDto) {
     // AdminService.create will hash password (as implemented earlier)
-    const admin = await this.adminService.create(dto);
+    try {
+      const admin = await this.adminService.create(dto);
     console.log("admin rcord",admin);
     
     const { password, ...rest } = admin;
     const userWithToken = await this.authService.login(admin);
     const user = { ...rest, ...userWithToken };
     return user;
+    } catch (error) {
+      return error;
+    }
   }
 
   @Post('login')

@@ -7,9 +7,12 @@ import { Manager, ManagerSchema } from 'src/manager/manager.schema';
 import { PassportModule } from '@nestjs/passport';
 import { JwtModule } from '@nestjs/jwt';
 import { ConfigModule, ConfigService } from '@nestjs/config';
+import { ProductSchema } from 'src/product/product.schema';
 
 @Module({
   imports: [MongooseModule.forFeature([{ name: Manager.name, schema: ManagerSchema }]),
+  MongooseModule.forFeature([{ name: 'Admin', schema: ManagerSchema }]),
+  MongooseModule.forFeature([{ name: 'Product', schema: ProductSchema }]),
 PassportModule.register({ defaultStrategy: 'jwt' }),
     JwtModule.registerAsync({
       imports: [ConfigModule],
