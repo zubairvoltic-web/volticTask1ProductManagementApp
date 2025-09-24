@@ -1,36 +1,25 @@
 import React, { useState } from 'react'
-import axios from 'axios'
+import useAdminStore from '../store/adminStore'
+import { useNavigate } from "react-router-dom";
 
 function AdminSignUp() {
   const [name, setName] = useState("")
   const [email, setEmail] = useState("")
   const [password, setPassword] = useState("")
   const [age, setAge] = useState()
+  
+  const signUpAdmin = useAdminStore((state) => state.signupAdmin);
 
-  const signupAdmin = async () => {
+  const navigate = useNavigate();
+
+  const signup= async () => {
     console.log(name, email, password, age)
+    const adminData = await signUpAdmin(name, email, password, age)
+    navigate("/products")
 
-    try {
-      const response = await axios.post(
-        'http://localhost:3000/auth/register',
-        {
-          name,
-          email,
-          password,
-          age: Number(age) // ✅ ensure age is a number
-        },
-        {
-          headers: { 'Content-Type': 'application/json' },
-          withCredentials: true, // ✅ if you want cookies
-        }
-      )
 
-      console.log("Signup success:", response.data)
-      // set it in the cookies
-      document.cookie = `token=${response.data.access_token}; path=/;`
-    } catch (error) {
-      console.error("Signup failed:", error)
-    }
+
+    
   }
 
   return (
@@ -74,7 +63,7 @@ function AdminSignUp() {
 
           {/* Button */}
           <button
-            onClick={signupAdmin}
+            onClick={signup}
             className="w-full bg-teal-500 text-slate-900 py-2 rounded-lg font-semibold transition duration-300 hover:bg-teal-400 hover:shadow-lg"
           >
             Sign Up

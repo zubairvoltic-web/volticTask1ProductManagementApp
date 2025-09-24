@@ -4,6 +4,9 @@ import Home from './Home';
 import AdminSignUp from './AdminSignUp';
 import AdminLogin from './AdminLogin';
 import Product from './Product';
+import AdminProducts from './AdminProducts';
+import CreateProduct from './createProduct';
+import AddManager from './AddManager';
 
 
 export default function Routing() {
@@ -21,8 +24,15 @@ export default function Routing() {
             <Routes>
                 <Route path="/home" element={<Home />} />
             </Routes>
+            
             <Routes>
-                <Route path="/products" element={<Product />} />
+                <Route path="/products" element={<AdminProducts/>} />
+            </Routes>
+            <Routes>
+                <Route path="/addProduct" element={<CreateProduct/>} />
+            </Routes>
+            <Routes>
+                <Route path="/addManager" element={<AddManager/>} />
             </Routes>
         </Router>
     );

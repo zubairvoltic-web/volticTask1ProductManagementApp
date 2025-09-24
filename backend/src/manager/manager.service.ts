@@ -97,4 +97,23 @@ export class ManagerService {
     return products;
   }
     
+  async update(id: string, updateManagerDto: any, userId: any) {
+    // first check if the manager exist with the id and then update the manager
+    const manager = await this.managerModel.findById(userId).exec();
+    if (!manager) {
+      return { message: 'Manager not found' };
+    }
+    const managerAdminId = manager.adminId;
+    // find the product with the id if the product admin id and manager admin id is same then only update the product
+    const product = await this.productModel.findById(id).exec();
+    if (!product) {
+      return { message: 'Product not found' };
+    }
+    if (product.adminId.toString() !== managerAdminId.toString()) {
+      return { message: 'You are not authorized to update this product' };
+    }
+    const updatedProduct = await this.productModel.findByIdAndUpdate(id, updateManagerDto, { new: true }).exec();
+    return updatedProduct;
+  }
+
 }

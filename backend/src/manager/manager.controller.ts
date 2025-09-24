@@ -1,4 +1,4 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete, UseGuards, Request, Res } from '@nestjs/common';
+import { Controller, Get, Post, Body, Patch, Param, Delete, UseGuards, Request, Res, Put } from '@nestjs/common';
 import { ManagerService } from './manager.service';
 import { CreateManagerDto, LoginDto } from './dto/create-manager.dto';
 import { UpdateManagerDto } from './dto/update-manager.dto';
@@ -33,6 +33,12 @@ export class ManagerController {
   @Get("getAll")
   findAll( @Request() req){
     return this.managerService.findAll(req.user);
+  }
+
+  @UseGuards(JwtAuthGuard)
+  @Put("update/:id")
+  update(@Param('id') id: string, @Body() updateManagerDto: UpdateManagerDto, @Request() req) {
+    return this.managerService.update(id, updateManagerDto, req.user.userId);
   }
 
 
