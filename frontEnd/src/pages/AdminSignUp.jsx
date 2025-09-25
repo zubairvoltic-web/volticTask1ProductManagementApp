@@ -71,7 +71,7 @@ function AdminSignUp() {
 
          <div>
             <p className="text-center text-gray-400 mt-4 text-sm">
-                Already have an account? <a href="/adminLogin" className="text-teal-400 hover:underline">Login here</a>
+                Already have an account? <a href="/login" className="text-teal-400 hover:underline">Login here</a>
             </p>
          </div>
             

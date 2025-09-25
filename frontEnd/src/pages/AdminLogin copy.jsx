@@ -28,16 +28,11 @@ function AdminLogin() {
       console.log("Admin logged in:", adminData);
       navigate("/products");
      }else{
-      if(loginState ==="manager"){
-         console.log("login as manager logic here ");
+
+      console.log("login as manager logic here ");
       await loginMnagerFunc(email,password)
       navigate('/managerDashBoard')
       
-
-      }
-      
-
-     
      }
 
       // redirect to products page

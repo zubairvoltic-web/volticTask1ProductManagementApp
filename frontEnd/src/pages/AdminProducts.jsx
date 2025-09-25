@@ -8,7 +8,7 @@ function AdminProducts() {
   const [products, setProducts] = useState([]);
   const navigate = useNavigate();
   const deleteProduct = useAdminStore((state) => state.deleteProduct);
-  const fetchProducts = useAdminStore((state) => state.getAllProduct);
+  const fetchProducts = useAdminStore((state) => state.AllProduct);
   const productToUpdate = useAdminStore((state) => state.updateProductState);
 
   useEffect(() => {

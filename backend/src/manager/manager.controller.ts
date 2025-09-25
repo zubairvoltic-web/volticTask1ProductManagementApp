@@ -34,6 +34,16 @@ export class ManagerController {
   findAll( @Request() req){
     return this.managerService.findAll(req.user);
   }
+   @Post('logout')
+  logout(@Res({ passthrough: true }) res: Response) {
+    res.clearCookie('jwt', {
+    httpOnly: true,
+    secure: true,      // must match the login cookie
+    sameSite: 'strict' // must match too
+  });
+    return { message: 'Logged out successfully' };
+  }
+ 
 
   @UseGuards(JwtAuthGuard)
   @Put("update/:id")

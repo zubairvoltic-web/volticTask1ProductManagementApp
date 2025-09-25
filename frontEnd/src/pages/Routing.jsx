@@ -3,10 +3,12 @@ import { BrowserRouter as Router, Routes, Route } from 'react-router-dom'; // Im
 import Home from './Home';
 import AdminSignUp from './AdminSignUp';
 import AdminLogin from './AdminLogin';
-import Product from './Product';
+
 import AdminProducts from './AdminProducts';
 import CreateProduct from './createProduct';
 import AddManager from './AddManager';
+import ManagerDashBoard from './ManagerDashBoard';
+import UpdateManagerProduct from './UpdateManagerProduct'
 
 
 export default function Routing() {
@@ -19,7 +21,7 @@ export default function Routing() {
                 <Route path="/adminSignup" element={<AdminSignUp />} />
             </Routes>
             <Routes>
-                <Route path="/adminLogin" element={<AdminLogin />} />
+                <Route path="/login" element={<AdminLogin />} />
             </Routes>
             <Routes>
                 <Route path="/home" element={<Home />} />
@@ -33,6 +35,12 @@ export default function Routing() {
             </Routes>
             <Routes>
                 <Route path="/addManager" element={<AddManager/>} />
+            </Routes>
+            <Routes>
+                <Route path="/managerDashBoard" element={<ManagerDashBoard/>} />
+            </Routes>
+             <Routes>
+                <Route path="/UpdateManagerProduct" element={<UpdateManagerProduct/>} />
             </Routes>
         </Router>
     );

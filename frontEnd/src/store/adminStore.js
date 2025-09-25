@@ -2,6 +2,7 @@
 import { create } from "zustand";
 import { devtools } from "zustand/middleware";
 import axios from "axios";
+import { useNavigate } from "react-router-dom";
 
 const baseURL = import.meta.env.VITE_BASE_URL;
 
@@ -25,8 +26,6 @@ const useAdminStore = create(
 
         console.log("Login response:", response.data);
 
-        // ✅ Save JWT manually if needed (but server already sets cookie with withCredentials)
-        document.cookie = `jwt=${response.data.access_token}; path=/;`;
 
         // ✅ Save admin detail into Zustand
         set({ adminDetail: response.data.admin });
@@ -38,13 +37,27 @@ const useAdminStore = create(
       }
     },
 
-    logoutAdmin: () => {
-      // clear cookie
-      document.cookie =
-        "jwt=; path=/; expires=Thu, 01 Jan 1970 00:00:00 GMT";
-      set({ adminDetail: null });
-      console.log("Admin logged out");
+    logOutAdmin: async () => {
+      try {
+        const response = await axios.post(
+          `${baseURL}/auth/logout`,
+          {},
+          { withCredentials: true }  // important: so cookies are included
+        );
+
+        console.log(response.data);
+        alert(response.data.message);
+
+        // Clear any local state (store, tokens in memory/localStorage)
+        set({ admin: null });
+
+        // Navigate back to login
+        window.location.href = "/login";
+      } catch (error) {
+        console.error("Logout failed:", error);
+      }
     },
+
     signupAdmin: async (name, email, password, age) => {
       try {
         const response = await axios.post(
@@ -91,7 +104,7 @@ const useAdminStore = create(
       }
 
     },
-    getAllProduct: async () => {
+    AllProduct: async () => {
       try {
         axios.get(`${baseURL}/product/all`, {
           withCredentials: true, // ⬅️ ensures cookies (jwt) are included
@@ -140,7 +153,7 @@ const useAdminStore = create(
       }
 
     },
-    updateProductWithAdmin: async (productId,name, description, price) => {
+    updateProductWithAdmin: async (productId, name, description, price) => {
 
       try {
         console.log("updated product with ID:", productId);
@@ -160,38 +173,38 @@ const useAdminStore = create(
         );
         alert("product updated Successfully")
 
-        
 
-       
+
+
       } catch (error) {
         console.error("update failed:", error.response?.data || error.message);
         alert("Failed to update product");
         throw error;
       }
     },
-   adminAddManager: async (name, email, password, role) => {
-  try {
-    const response = await axios.post(
-      `${baseURL}/manager/AddUserRole`,
-      {
-        name,
-        email,
-        password,
-        role,
-      },
-      {
-        headers: { "Content-Type": "application/json" },
-        withCredentials: true, // ✅ include cookies (JWT)
+    adminAddManager: async (name, email, password, role) => {
+      try {
+        const response = await axios.post(
+          `${baseURL}/manager/AddUserRole`,
+          {
+            name,
+            email,
+            password,
+            role,
+          },
+          {
+            headers: { "Content-Type": "application/json" },
+            withCredentials: true, // ✅ include cookies (JWT)
+          }
+        );
+        alert("Manager added successfully!");
+        return response.data;
+      } catch (error) {
+        console.error("Add manager failed:", error.response?.data || error.message);
+        alert("Failed to add manager");
+        throw error;
       }
-    );
-    alert("Manager added successfully!");
-    return response.data;
-  } catch (error) {
-    console.error("Add manager failed:", error.response?.data || error.message);
-    alert("Failed to add manager");
-    throw error;
-  }
-},
+    },
 
   }))
 );
