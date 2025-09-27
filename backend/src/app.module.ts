@@ -8,12 +8,13 @@ import { AuthModule } from './auth/auth.module';
 import { ManagerModule } from './manager/manager.module';
 import { ProductModule } from './product/product.module';
 import { UtilsModule } from './utils/utils.module';
+import { UserModule } from './user/user.module';
 
 @Module({
   imports: [AdminModule,AuthModule,
     ConfigModule.forRoot({
       isGlobal: true, // makes env variables available everywhere
-    }), MongooseModule.forRoot(process.env.DB_CONNECT), ManagerModule, ProductModule, UtilsModule,],
+    }), MongooseModule.forRoot(process.env.DB_CONNECT), ManagerModule, ProductModule, UtilsModule, UserModule,],
   controllers: [AppController],
   providers: [AppService],
 })
