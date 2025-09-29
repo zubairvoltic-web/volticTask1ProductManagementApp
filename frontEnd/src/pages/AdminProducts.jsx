@@ -1,15 +1,16 @@
 import React, { useEffect, useState } from "react";
 import Navbar from "../components/Navbar";
 import { useNavigate } from "react-router-dom";
-import useAdminStore from "../store/adminStore";
+import useAdminStore from "../store/usersStore";
+import useUsersStore from "../store/usersStore";
 
 
 function AdminProducts() {
   const [products, setProducts] = useState([]);
   const navigate = useNavigate();
-  const deleteProduct = useAdminStore((state) => state.deleteProduct);
-  const fetchProducts = useAdminStore((state) => state.AllProduct);
-  const productToUpdate = useAdminStore((state) => state.updateProductState);
+  const deleteProduct = useUsersStore((state) => state.deleteProduct);
+  const fetchProducts = useUsersStore((state) => state.AllProduct);
+  const productToUpdate = useUsersStore((state) => state.updateProductState);
 
   useEffect(() => {
     fetchProducts();

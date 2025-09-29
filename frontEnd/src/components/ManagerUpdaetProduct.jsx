@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import useManagerStore from "../store/managerStore";
-import useAdminStore from "../store/adminStore";
+import useAdminStore from "../store/usersStore";
 import { useNavigate } from "react-router-dom";
 
 function ManagerUpdateProduct() {

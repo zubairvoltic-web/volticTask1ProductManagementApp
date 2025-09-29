@@ -1,13 +1,26 @@
-import React from 'react'
-import useAdminStore from '../store/adminStore'
+import React, { useEffect, useState } from 'react'
+
 import { useNavigate } from 'react-router-dom'
+import useUsersStore from '../store/usersStore'
 
 function Navbar() {
-  const logOutTheAdmin = useAdminStore((state)=>state.logOutAdmin)
-  const navigate =useNavigate
+  const [userRole,setUserRole] = useState("")
+  const logOutUser = useUsersStore((state)=>state.logOutUser)
+  const userDetail = useUsersStore((state)=>state.userDetail)
+  
+  const navigate =useNavigate()
+  useEffect(() => {
+  if (userDetail) {
+    console.log("the user DEtal ", userDetail);
+    setUserRole(userDetail.role);
+  } else {
+    setUserRole(""); // or null if you prefer
+  }
+}, [userDetail]);
+
   
   const logout= async()=>{
-   await logOutTheAdmin()
+   await logOutUser()
   }
   return (
     <div>
@@ -17,7 +30,9 @@ function Navbar() {
         <ul className='md:flex hidden gap-6 text-lg text-teal-400 font-semibold'>
             <li><a href="/home">Home</a></li>
             <li><a href="/products"> Product</a></li>
-            <li><a href="/addProduct">Add Product</a></li>
+           {userRole === 'admin'?
+            <li><a href="/addProduct">Add Product</a></li>:
+            null}
             
 
 

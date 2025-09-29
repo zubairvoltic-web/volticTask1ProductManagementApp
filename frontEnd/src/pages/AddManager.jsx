@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import Navbar from "../components/Navbar";
-import useAdminStore from "../store/adminStore";
+import useAdminStore from "../store/usersStore";
+import useUsersStore from "../store/usersStore";
 
 function AddManager() {
   const [name, setName] = useState("");
@@ -8,14 +9,14 @@ function AddManager() {
   const [password, setPassword] = useState("");
   const [role, setRole] = useState("manager"); // default "manager"
 
-  const adminAddManager = useAdminStore((state) => state.adminAddManager);
+  const adminAddManager = useUsersStore((state) => state.addManager);
 
   const handleSubmit = async () => {
     if (!name || !email || !password) {
       alert("All fields are required");
       return;
     }
-    await adminAddManager(name, email, password, role);
+    await adminAddManager(name, email, password,'manager');
 
     // reset form after success
     setName("");

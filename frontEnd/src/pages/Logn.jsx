@@ -1,46 +1,27 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import useAdminStore from "../store/adminStore";
+;
 import useManagerStore from "../store/managerStore";
+import useUsersStore from "../store/usersStore";
 
-function AdminLogin() {
+function Login() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [loginState, setLoginState] = useState("")
 
-  // get the loginAdmin function from Zustand
-  const loginAdmin = useAdminStore((state) => state.loginAdmin);
-  const loginMnagerFunc = useManagerStore((state)=>state.loginManager)
+  const login = useUsersStore((state) => state.login);
+  
 
   const navigate = useNavigate();
-  console.log("loginstate",loginState);
-  
 
   const handleLogin = async () => {
     try {
-      console.log("handelLogin");
-      
-     if(loginState === "admin"){
-      console.log("in the login block,",loginState);
-      
+      console.log("handleLogin");
 
-       const adminData = await loginAdmin(email, password);
-      console.log("Admin logged in:", adminData);
-      navigate("/products");
-     }else{
-      if(loginState ==="manager"){
-         console.log("login as manager logic here ");
-      await loginMnagerFunc(email,password)
-      navigate('/managerDashBoard')
-      
+      // Try admin login first
+      const userData = await login(email, password);
 
-      }
-      
-
-     
-     }
-
-      // redirect to products page
+      console.log("the user Data0",userData);
+      navigate('/products')
       
     } catch (err) {
       alert("Login failed. Check your credentials.");
@@ -72,15 +53,6 @@ function AdminLogin() {
             placeholder="Enter your password"
             className="w-full px-4 py-2 border border-teal-400 bg-slate-900 text-white rounded-lg"
           />
-          <select
-            onChange={(e) => setLoginState(e.target.value)}
-            className="w-full px-4 py-2 border border-teal-400 bg-slate-900 text-white rounded-lg focus:border-teal-500 focus:ring-2 focus:ring-teal-500"
-          >
-            <option value="">Login as</option>
-            <option value="admin">Admin</option>
-            <option value="manager">Manager</option>
-          </select>
-
 
           <button
             onClick={handleLogin}
@@ -92,7 +64,7 @@ function AdminLogin() {
           <div>
             <p className="text-center text-gray-400 mt-4 text-sm">
               Don't have an account?{" "}
-              <a href="/adminSignup" className="text-teal-400 hover:underline">
+              <a href="/signup" className="text-teal-400 hover:underline">
                 Sign up here
               </a>
             </p>
@@ -103,4 +75,4 @@ function AdminLogin() {
   );
 }
 
-export default AdminLogin;
+export default Login;

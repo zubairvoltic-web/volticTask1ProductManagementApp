@@ -1,6 +1,7 @@
 import React, { useState } from 'react'
-import useAdminStore from '../store/adminStore'
+
 import { useNavigate } from "react-router-dom";
+import useUsersStore from '../store/usersStore';
 
 function AdminSignUp() {
   const [name, setName] = useState("")
@@ -8,13 +9,13 @@ function AdminSignUp() {
   const [password, setPassword] = useState("")
   const [age, setAge] = useState()
   
-  const signUpAdmin = useAdminStore((state) => state.signupAdmin);
+  const signUpAdmin = useUsersStore((state) => state.userAdmin);
 
   const navigate = useNavigate();
 
   const signup= async () => {
     console.log(name, email, password, age)
-    const adminData = await signUpAdmin(name, email, password, age)
+    const adminData = await userAdmin(name, email, password, age)
     navigate("/products")
 
 
@@ -27,8 +28,8 @@ function AdminSignUp() {
       <div className="h-auto bg-slate-950 p-8 rounded-2xl shadow-xl w-full max-w-md hover:scale-105 hover:shadow-teal-500/30 transform transition duration-300">
         
         {/* Title */}
-        <h2 className="text-3xl font-bold text-center mb-2 text-teal-400">Admin Sign Up</h2>
-        <p className="text-center text-gray-400 mb-8 text-sm">Create a new admin account</p>
+        <h2 className="text-3xl font-bold text-center mb-2 text-teal-400">Sign Up</h2>
+        <p className="text-center text-gray-400 mb-8 text-sm">Create a new  account</p>
 
         {/* Inputs */}
         <div className="space-y-5">

@@ -2,18 +2,20 @@ import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
 import { Admin } from 'src/admin/admin.schema';
+import { User } from 'src/user/user.schema';
 
 @Injectable()
 export class AdminHelperService {
   constructor(
-    @InjectModel(Admin.name) private adminModel: Model<Admin>,
+    @InjectModel(User.name) private uerModel: Model<User>,
   ) {}
 
   async validateAdmin(adminId: string) {
-    const admin = await this.adminModel.findById(adminId);
-    if (!admin) {
-      throw new NotFoundException('You are not authorized to perform this action');
+    const user = await this.uerModel.findById(adminId);
+    if (user.role === 'admin') {
+      return user
+    }else{
+      throw new NotFoundException('Manager canNot perform this action ');
     }
-    return admin;
   }
 }

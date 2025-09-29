@@ -6,12 +6,13 @@ import { Model, Types } from 'mongoose';
 import { InjectModel } from '@nestjs/mongoose';
 import { Product } from './product.schema';
 import { AdminHelperService } from 'src/utils/admin.helper';
+import { User } from 'src/user/user.schema';
 
 @Injectable()
 export class ProductService {
   constructor(
     private readonly adminHelper: AdminHelperService,
-    @InjectModel(Admin.name) private adminModel: Model<Admin>,
+    @InjectModel(User.name) private userModel: Model<User>,
     @InjectModel(Product.name) private productModel: Model<Product>,
   ) {}
 
@@ -51,8 +52,20 @@ export class ProductService {
     }
     
   }
-  async findAll(adminId: string) {
-    return this.productModel.find({ adminId: adminId }).exec();
+  async findAll(userId: string) {
+    console.log("in the product Block",userId);
+    
+   const userDetail = await this.userModel.findById(userId);
+   console.log("in the product ",userDetail);
+   if(userDetail.role === 'admin'){
+    console.log("in the product Block");
+    const products = await this.productModel.find({adminId : userDetail._id});
+    console.log("admin Products",products);
+    return products;
+   }else if(userDetail.role==='manager'){
+    const adminProductForTheirManager = await this.productModel.find({adminId:userDetail.admin});
+    return adminProductForTheirManager;
+   } 
   }
   async update(id: string, updateProductDto: UpdateProductDto) {
     

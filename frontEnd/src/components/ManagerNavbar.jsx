@@ -1,5 +1,5 @@
 import React from 'react'
-import useAdminStore from '../store/adminStore'
+import useAdminStore from '../store/usersStore'
 import useManagerStore from '../store/managerStore'
 
 function ManagerNavbar() {
