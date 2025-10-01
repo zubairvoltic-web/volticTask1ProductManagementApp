@@ -62,19 +62,19 @@ export class UserService {
     return userCreated; // replace with mongoose.save() or prisma.create()
   }
   async validateUser(email: string, password: string) {
-    const userInDb =await  this.userModel.findOne({ email });
-      
-      const isValid = await comparePasswords(password, userInDb.password);
-      if (!isValid) return null;
-  
-      // remove sensitive data
-      const { password: _, ...result } = userInDb.toObject();
-      return result;
+      const userInDb =await  this.userModel.findOne({ email });
+        
+        const isValid = await comparePasswords(password, userInDb.password);
+        if (!isValid) return null;
+    
+        // remove sensitive data
+        const { password: _, ...result } = userInDb.toObject();
+        return result;
     }
   
     async login(user: any) {
       // user is the validated user (object from DB)
-      const payload = { email: user.email, sub: user._id };
+      const payload = { email: user.email, sub: user._id,role:user.role };
       return {
         access_token: this.jwtService.sign(payload),
         expiresIn: process.env.JWT_EXPIRES_IN || '3600s',

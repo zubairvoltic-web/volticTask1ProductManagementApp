@@ -9,12 +9,13 @@ import { ManagerModule } from './manager/manager.module';
 import { ProductModule } from './product/product.module';
 import { UtilsModule } from './utils/utils.module';
 import { UserModule } from './user/user.module';
+import { ProModule } from './pro/pro.module';
 
 @Module({
   imports: [AdminModule,AuthModule,
     ConfigModule.forRoot({
       isGlobal: true, // makes env variables available everywhere
-    }), MongooseModule.forRoot(process.env.DB_CONNECT), ManagerModule, ProductModule, UtilsModule, UserModule,],
+    }), MongooseModule.forRoot(process.env.DB_CONNECT), ManagerModule, ProductModule, UtilsModule, UserModule, ProModule,],
   controllers: [AppController],
   providers: [AppService],
 })
